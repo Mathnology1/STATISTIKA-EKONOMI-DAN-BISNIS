@@ -3,51 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Statistika - Jawaban Detail</title>
+    <title>Kuis Statistika - Konsep Dasar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
         .question-card { transition: all 0.3s ease; }
-        .question-card:hover { transform: translateY(-2px); }
-        .answer-reveal { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
-        .answer-reveal.show { max-height: 1000px; }
-        .correct-answer { background: linear-gradient(135deg, #10b981, #059669); }
-        .wrong-answer { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover { transform: translateY(-1px); }
+        .correct { background: linear-gradient(135deg, #10b981, #059669); }
+        .incorrect { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .explanation-box { animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
         <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-800 mb-2">📊 Kuis Statistika</h1>
-            <p class="text-lg text-gray-600">Aplikasi pembelajaran dengan jawaban detail dan penjelasan lengkap</p>
-            <div class="mt-4 bg-white rounded-lg p-4 shadow-md inline-block">
-                <span class="text-sm text-gray-500">Progress: </span>
-                <span id="progress" class="font-semibold text-blue-600">0/20 soal dijawab</span>
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Kuis Statistika</h1>
+            <p class="text-lg text-gray-600">Konsep Dasar Statistik dan Statistika</p>
+            <div class="mt-4 bg-white rounded-lg shadow-md p-4 inline-block">
+                <div class="flex items-center space-x-6">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-blue-600" id="score">0</div>
+                        <div class="text-sm text-gray-500">Skor</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-green-600" id="correct">0</div>
+                        <div class="text-sm text-gray-500">Benar</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-red-600" id="incorrect">0</div>
+                        <div class="text-sm text-gray-500">Salah</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Questions Container -->
-        <div id="questionsContainer" class="space-y-6">
+        <!-- Quiz Container -->
+        <div id="quiz-container" class="space-y-6">
             <!-- Questions will be generated here -->
         </div>
 
-        <!-- Summary -->
-        <div id="summary" class="hidden mt-8 bg-white rounded-xl shadow-lg p-6">
-            <h2 class="text-2xl font-bold text-center mb-4">🎉 Ringkasan Hasil</h2>
-            <div class="text-center">
-                <div id="scoreDisplay" class="text-3xl font-bold mb-2"></div>
-                <p class="text-gray-600 mb-4">Terima kasih telah mengerjakan kuis statistika!</p>
-                <button onclick="resetQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors">
-                    Ulangi Kuis
-                </button>
-            </div>
+        <!-- Results -->
+        <div id="results" class="hidden mt-8 bg-white rounded-xl shadow-lg p-8 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Hasil Kuis</h2>
+            <div class="text-6xl font-bold text-blue-600 mb-2" id="final-score">0</div>
+            <p class="text-xl text-gray-600 mb-6">dari 20 soal</p>
+            <button onclick="resetQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                Ulangi Kuis
+            </button>
         </div>
-        
+
         <!-- Footer -->
-        <div class="text-center mt-12 pb-8">
-            <p class="text-gray-500 text-sm">© 2025 Mathnology</p>
+        <div class="text-center mt-12 text-gray-500">
+            <p class="text-sm">2025 Mathnology</p>
         </div>
     </div>
 
@@ -57,302 +71,390 @@
                 id: 1,
                 question: "Pernyataan yang tepat tentang perbedaan \"statistik\" dan \"statistika\" adalah…",
                 options: [
-                    "A. Statistik = metode; Statistika = angka",
-                    "B. Statistik = angka/nilai; Statistika = metode/teknik",
-                    "C. Statistik = tabel; Statistika = grafik",
-                    "D. Statistik = survei; Statistika = sensus",
-                    "E. Statistik = hipotesis; Statistika = teori probabilitas"
+                    "Statistik = metode; Statistika = angka",
+                    "Statistik = angka/nilai; Statistika = metode/teknik",
+                    "Statistik = tabel; Statistika = grafik",
+                    "Statistik = survei; Statistika = sensus",
+                    "Statistik = hipotesis; Statistika = teori probabilitas"
                 ],
                 correct: 1,
-                explanation: "**Jawaban: B**\n\n**Penjelasan Detail:**\n• **Statistik** = angka, nilai, atau ukuran numerik yang diperoleh dari sampel (contoh: rata-rata = 75, median = 80)\n• **Statistika** = ilmu/metode/teknik untuk mengumpulkan, mengolah, menganalisis, dan menginterpretasi data\n\n**Analogi sederhana:** Statistik adalah \"hasil masakan\", statistika adalah \"cara memasak\"\n\n**Mengapa pilihan lain salah:**\n• A: Terbalik - statistik bukan metode\n• C: Terlalu spesifik, bukan definisi umum\n• D: Hanya contoh teknik pengumpulan data\n• E: Tidak mencerminkan perbedaan mendasar"
+                explanation: "Statistik merujuk pada angka-angka atau nilai-nilai numerik yang diperoleh dari data (seperti rata-rata, median, dll), sedangkan Statistika adalah ilmu atau metode/teknik untuk mengumpulkan, mengolah, menganalisis, dan menginterpretasi data."
             },
             {
                 id: 2,
                 question: "Ilustrasi pedagang jeruk yang memberi contoh satu-dua jeruk untuk meyakinkan pembeli paling tepat menggambarkan konsep…",
                 options: [
-                    "A. Sensus",
-                    "B. Sampling",
-                    "C. Eksperimen terkontrol",
-                    "D. Uji hipotesis dua arah",
-                    "E. Uji normalitas"
+                    "Sensus",
+                    "Sampling",
+                    "Eksperimen terkontrol",
+                    "Uji hipotesis dua arah",
+                    "Uji normalitas"
                 ],
                 correct: 1,
-                explanation: "**Jawaban: B**\n\n**Penjelasan Detail:**\n**Sampling** adalah proses mengambil sebagian kecil dari populasi untuk mewakili keseluruhan.\n\n**Dalam ilustrasi ini:**\n• **Populasi** = seluruh jeruk yang dijual\n• **Sampel** = 1-2 jeruk yang ditunjukkan\n• **Tujuan** = pembeli dapat menilai kualitas seluruh jeruk berdasarkan sampel\n\n**Mengapa pilihan lain salah:**\n• A. Sensus = meneliti SEMUA jeruk (tidak praktis)\n• C. Eksperimen terkontrol = ada manipulasi variabel\n• D. Uji hipotesis = menguji dugaan statistik\n• E. Uji normalitas = menguji distribusi data\n\n**Prinsip sampling:** Sampel yang baik harus representatif terhadap populasi"
+                explanation: "Sampling adalah proses mengambil sebagian kecil dari populasi untuk merepresentasikan keseluruhan. Pedagang jeruk mengambil beberapa jeruk sebagai sampel untuk menunjukkan kualitas seluruh jeruk yang dijual."
             },
             {
                 id: 3,
                 question: "Data lulusan yang panjang dan acak, lalu disusun ulang ke dalam tabel agar mudah dijawab pertanyaannya, menonjolkan fungsi statistika sebagai…",
                 options: [
-                    "A. Generalisasi sampel ke populasi",
-                    "B. Deskripsi data agar komunikatif",
-                    "C. Uji kausalitas",
-                    "D. Peramalan jangka panjang",
-                    "E. Pengurangan variabel"
+                    "Generalisasi sampel ke populasi",
+                    "Deskripsi data agar komunikatif",
+                    "Uji kausalitas",
+                    "Peramalan jangka panjang",
+                    "Pengurangan variabel"
                 ],
                 correct: 1,
-                explanation: "**Jawaban: B**\n\n**Penjelasan Detail:**\n**Deskripsi data** adalah fungsi statistika untuk menyajikan data mentah menjadi bentuk yang mudah dipahami dan komunikatif.\n\n**Proses yang terjadi:**\n1. **Data mentah** = panjang, acak, sulit dibaca\n2. **Pengolahan** = disusun dalam tabel, grafik, atau ringkasan\n3. **Hasil** = informasi yang mudah dipahami dan menjawab pertanyaan\n\n**Contoh transformasi:**\n• Data acak: \"Ali 85, Budi 70, Cici 90, Dedi 75...\"\n• Menjadi tabel: Distribusi nilai berdasarkan rentang\n\n**Mengapa pilihan lain salah:**\n• A. Generalisasi = statistika inferensial\n• C. Uji kausalitas = mencari hubungan sebab-akibat\n• D. Peramalan = prediksi masa depan\n• E. Pengurangan variabel = teknik analisis lanjutan"
+                explanation: "Fungsi deskriptif statistika adalah menyajikan dan mengorganisir data mentah menjadi bentuk yang lebih terstruktur dan mudah dipahami, seperti tabel, grafik, atau ringkasan statistik."
             },
             {
                 id: 4,
                 question: "Dua peran utama statistika secara garis besar adalah…",
                 options: [
-                    "A. Estimasi & korelasi",
-                    "B. Deskripsi & inferensi",
-                    "C. Regresi & klasifikasi",
-                    "D. Uji normalitas & homogenitas",
-                    "E. Validasi & reliabilitas"
+                    "Estimasi & korelasi",
+                    "Deskripsi & inferensi",
+                    "Regresi & klasifikasi",
+                    "Uji normalitas & homogenitas",
+                    "Validasi & reliabilitas"
                 ],
                 correct: 1,
-                explanation: "**Jawaban: B**\n\n**Penjelasan Detail:**\nDua cabang utama statistika:\n\n**1. Statistika Deskriptif:**\n• Menggambarkan dan meringkas data\n• Contoh: rata-rata, median, grafik, tabel\n• Tujuan: membuat data mudah dipahami\n\n**2. Statistika Inferensial:**\n• Menarik kesimpulan tentang populasi berdasarkan sampel\n• Contoh: uji hipotesis, estimasi parameter, prediksi\n• Tujuan: generalisasi dari sampel ke populasi\n\n**Analogi:**\n• **Deskriptif** = \"Melaporkan apa yang terjadi\"\n• **Inferensial** = \"Memprediksi apa yang akan terjadi\"\n\n**Mengapa pilihan lain salah:**\n• A, C, D, E = teknik-teknik spesifik, bukan pembagian utama statistika"
+                explanation: "Statistika memiliki dua peran utama: (1) Deskriptif - menggambarkan dan meringkas data, dan (2) Inferensial - membuat kesimpulan tentang populasi berdasarkan sampel."
             },
             {
                 id: 5,
                 question: "Manakah yang merupakan tujuan statistika deskriptif?",
                 options: [
-                    "A. Menguji parameter populasi",
-                    "B. Menyajikan data agar mudah dipahami",
-                    "C. Menentukan ukuran sampel minimum",
-                    "D. Menarik kesimpulan untuk populasi",
-                    "E. Menentukan nilai kritis uji-t"
+                    "Menguji parameter populasi",
+                    "Menyajikan data agar mudah dipahami",
+                    "Menentukan ukuran sampel minimum",
+                    "Menarik kesimpulan untuk populasi",
+                    "Menentukan nilai kritis uji-t"
                 ],
                 correct: 1,
-                explanation: "**Jawaban: B**\n\n**Penjelasan Detail:**\n**Statistika Deskriptif** bertujuan untuk:\n• **Menyajikan data** dalam bentuk yang mudah dipahami\n• **Meringkas informasi** dari data mentah\n• **Menggambarkan karakteristik** data tanpa generalisasi\n\n**Metode yang digunakan:**\n• Ukuran pemusatan (mean, median, modus)\n• Ukuran penyebaran (range, standar deviasi)\n• Tabel distribusi frekuensi\n• Grafik (histogram, pie chart, box plot)\n\n**Contoh praktis:**\nData nilai ujian 100 siswa → disajikan dalam histogram dan rata-rata untuk memudahkan pemahaman\n\n**Mengapa pilihan lain salah:**\n• A, C, D, E = tujuan statistika **inferensial**, bukan deskriptif\n• Statistika deskriptif TIDAK membuat kesimpulan tentang populasi"
+                explanation: "Statistika deskriptif bertujuan untuk menyajikan, meringkas, dan menggambarkan data dalam bentuk yang mudah dipahami melalui tabel, grafik, atau ukuran-ukuran statistik seperti rata-rata dan standar deviasi."
             },
             {
                 id: 6,
                 question: "Bahan baku (input) dalam \"pabrik\" statistika adalah…",
                 options: [
-                    "A. Parameter",
-                    "B. Statistik",
-                    "C. Data",
-                    "D. Nilai kritis tabel",
-                    "E. Rancangan percobaan"
+                    "Parameter",
+                    "Statistik",
+                    "Data",
+                    "Nilai kritis tabel",
+                    "Rancangan percobaan"
                 ],
                 correct: 2,
-                explanation: "**Jawaban: C**\n\n**Penjelasan Detail:**\n**Data** adalah bahan baku utama dalam \"pabrik\" statistika.\n\n**Analogi Pabrik Statistika:**\n• **Input (Bahan baku)** = Data mentah\n• **Proses** = Metode statistika (analisis, pengolahan)\n• **Output (Produk)** = Informasi, kesimpulan, keputusan\n\n**Jenis data sebagai input:**\n• Data kuantitatif (angka): tinggi badan, nilai ujian\n• Data kualitatif (kategori): jenis kelamin, warna\n• Data primer (dikumpulkan sendiri)\n• Data sekunder (dari sumber lain)\n\n**Mengapa pilihan lain salah:**\n• A. Parameter = karakteristik populasi (output, bukan input)\n• B. Statistik = ukuran dari sampel (hasil olahan data)\n• D. Nilai kritis = alat bantu analisis\n• E. Rancangan percobaan = metode pengumpulan data\n\n**Tanpa data, tidak ada statistika!**"
+                explanation: "Data adalah bahan baku utama dalam statistika. Semua analisis statistik dimulai dari data yang dikumpulkan, kemudian diolah menggunakan metode statistika untuk menghasilkan informasi yang berguna."
             },
             {
                 id: 7,
                 question: "\"Harga beras naik\" vs \"harga beras naik 10%\" secara berurutan termasuk data…",
                 options: [
-                    "A. Kualitatif & kualitatif",
-                    "B. Kuantitatif & kualitatif",
-                    "C. Kualitatif & kuantitatif",
-                    "D. Diskrit & kontinu",
-                    "E. Internal & eksternal"
+                    "Kualitatif & kualitatif",
+                    "Kuantitatif & kualitatif",
+                    "Kualitatif & kuantitatif",
+                    "Diskrit & kontinu",
+                    "Internal & eksternal"
                 ],
                 correct: 2,
-                explanation: "**Jawaban: C**\n\n**Penjelasan Detail:**\n\n**\"Harga beras naik\" = Data Kualitatif**\n• Hanya menyatakan **kategori/sifat** (naik/turun)\n• Tidak ada **nilai numerik** yang spesifik\n• Bersifat **deskriptif** tanpa ukuran\n\n**\"Harga beras naik 10%\" = Data Kuantitatif**\n• Ada **nilai numerik** yang jelas (10%)\n• Dapat **diukur dan dihitung**\n• Memberikan informasi **seberapa besar** perubahan\n\n**Perbedaan kunci:**\n• **Kualitatif** = menjelaskan \"apa\" atau \"bagaimana\"\n• **Kuantitatif** = menjelaskan \"berapa\" atau \"seberapa\"\n\n**Contoh serupa:**\n• \"Cuaca panas\" (kualitatif) vs \"Suhu 35°C\" (kuantitatif)\n• \"Tinggi\" (kualitatif) vs \"180 cm\" (kuantitatif)\n\n**Mengapa pilihan lain salah:**\n• A, B = salah mengkategorikan\n• D, E = bukan klasifikasi yang tepat untuk konteks ini"
+                explanation: "\"Harga beras naik\" adalah data kualitatif karena hanya menunjukkan kategori/sifat tanpa angka. \"Harga beras naik 10%\" adalah data kuantitatif karena mengandung nilai numerik yang dapat diukur."
             },
             {
                 id: 8,
                 question: "Jumlah siswa hadir = 28 orang; tinggi badan = 165,4 cm. Kategorinya adalah…",
                 options: [
-                    "A. Keduanya diskrit",
-                    "B. Keduanya kontinu",
-                    "C. Diskrit & kontinu",
-                    "D. Kontinu & diskrit",
-                    "E. Keduanya kualitatif"
+                    "Keduanya diskrit",
+                    "Keduanya kontinu",
+                    "Diskrit & kontinu",
+                    "Kontinu & diskrit",
+                    "Keduanya kualitatif"
                 ],
                 correct: 2,
-                explanation: "**Jawaban: C**\n\n**Penjelasan Detail:**\n\n**Jumlah siswa hadir = 28 orang → Data Diskrit**\n• Hanya bisa berupa **bilangan bulat**\n• Tidak mungkin ada 28,5 siswa hadir\n• **Dapat dihitung** satu per satu\n• Memiliki **nilai terpisah** (discrete)\n\n**Tinggi badan = 165,4 cm → Data Kontinu**\n• Dapat berupa **bilangan desimal**\n• Bisa 165,4 cm, 165,41 cm, 165,412 cm, dst.\n• **Dapat diukur** dengan tingkat ketelitian berbeda\n• Memiliki **rentang nilai** yang tidak terputus\n\n**Ciri-ciri pembeda:**\n• **Diskrit**: Dihitung (counted) - jumlah anak, mobil, buku\n• **Kontinu**: Diukur (measured) - tinggi, berat, suhu, waktu\n\n**Contoh lain:**\n• Diskrit: jumlah gol, nilai ujian (jika bilangan bulat)\n• Kontinu: berat badan, luas tanah, kecepatan\n\n**Mengapa pilihan lain salah:**\n• A, B, D = salah mengkategorikan salah satu atau keduanya\n• E = keduanya adalah data kuantitatif, bukan kualitatif"
+                explanation: "Jumlah siswa (28 orang) adalah data diskrit karena berupa bilangan bulat yang tidak dapat dipecah. Tinggi badan (165,4 cm) adalah data kontinu karena dapat memiliki nilai desimal dan dapat diukur dengan presisi yang lebih tinggi."
             },
             {
                 id: 9,
                 question: "Data gaji pegawai perusahaan sendiri vs tingkat inflasi nasional masing-masing adalah…",
                 options: [
-                    "A. Internal & internal",
-                    "B. Eksternal & eksternal",
-                    "C. Internal & eksternal",
-                    "D. Eksternal & internal",
-                    "E. Primer & sekunder"
+                    "Internal & internal",
+                    "Eksternal & eksternal",
+                    "Internal & eksternal",
+                    "Eksternal & internal",
+                    "Primer & sekunder"
                 ],
                 correct: 2,
-                explanation: "**Jawaban: C**\n\n**Penjelasan Detail:**\n\n**Data gaji pegawai perusahaan sendiri = Data Internal**\n• Berasal dari **dalam organisasi/perusahaan**\n• Dikumpulkan dan **dikontrol langsung** oleh perusahaan\n• Contoh lain: data penjualan, absensi, produktivitas karyawan\n\n**Tingkat inflasi nasional = Data Eksternal**\n• Berasal dari **luar organisasi** (BPS, Bank Indonesia)\n• **Tidak dikontrol** oleh perusahaan\n• Mempengaruhi perusahaan tapi bukan hasil kegiatan internal\n• Contoh lain: kurs mata uang, tingkat suku bunga, data kompetitor\n\n**Kriteria pembeda:**\n• **Internal**: Dihasilkan dari aktivitas internal organisasi\n• **Eksternal**: Berasal dari lingkungan luar organisasi\n\n**Mengapa pilihan lain salah:**\n• A: Inflasi nasional bukan data internal perusahaan\n• B: Gaji pegawai sendiri adalah data internal\n• D: Terbalik dari jawaban yang benar\n• E: Primer/sekunder mengacu pada sumber pengumpulan, bukan lokasi asal data"
+                explanation: "Data gaji pegawai perusahaan sendiri adalah data internal karena berasal dari dalam organisasi. Tingkat inflasi nasional adalah data eksternal karena berasal dari luar organisasi (biasanya dari BPS atau lembaga pemerintah)."
             },
             {
                 id: 10,
                 question: "Data primer adalah data yang…",
                 options: [
-                    "A. Dikumpulkan langsung dari objek penelitian",
-                    "B. Diterbitkan lembaga lain",
-                    "C. Tersaji dalam laporan tahunan",
-                    "D. Terbentuk dari proses komputasi",
-                    "E. Dibuat melalui sintesis literatur"
+                    "Dikumpulkan langsung dari objek penelitian",
+                    "Diterbitkan lembaga lain",
+                    "Tersaji dalam laporan tahunan",
+                    "Terbentuk dari proses komputasi",
+                    "Dibuat melalui sintesis literatur"
                 ],
                 correct: 0,
-                explanation: "**Jawaban: A**\n\n**Penjelasan Detail:**\n\n**Data Primer** adalah data yang:\n• **Dikumpulkan langsung** dari sumber asli/objek penelitian\n• **Belum pernah diolah** oleh pihak lain\n• Dikumpulkan **khusus untuk tujuan** penelitian tertentu\n• **Fresh data** - baru dan original\n\n**Metode pengumpulan data primer:**\n• **Survei/kuesioner** langsung ke responden\n• **Wawancara** dengan narasumber\n• **Observasi** langsung di lapangan\n• **Eksperimen** yang dirancang sendiri\n\n**Contoh data primer:**\n• Hasil wawancara dengan 100 konsumen\n• Data pengukuran tinggi badan siswa\n• Hasil survei kepuasan pelanggan\n\n**Mengapa pilihan lain salah:**\n• B, C, E = Data **sekunder** (sudah diolah pihak lain)\n• D = Data hasil komputasi, bukan pengumpulan langsung\n\n**Keuntungan data primer:** Sesuai kebutuhan, akurat, terkini\n**Kerugian:** Mahal, memakan waktu, butuh tenaga banyak"
+                explanation: "Data primer adalah data yang dikumpulkan langsung oleh peneliti dari sumber asli atau objek penelitian melalui observasi, wawancara, kuesioner, atau eksperimen."
+            },
+            {
+                id: 11,
+                question: "Data cross section vs time series paling tepat ditunjukkan oleh…",
+                options: [
+                    "Nilai ekspor Indonesia per bulan Januari–Desember 2024 vs belanja rumah tangga pada 1 Juni 2025",
+                    "Nilai UN siswa kelas XII 2025 vs IPK alumni 2018",
+                    "Penjualan toko pada 1 hari tertentu vs penjualan toko per hari selama 30 hari",
+                    "Daftar gaji pegawai tahun 2025 vs gaji pegawai divisi A tahun 2025",
+                    "Suhu kota pada jam 08.00 vs suhu kota pada jam 10.00 di hari sama"
+                ],
+                correct: 2,
+                explanation: "Data cross section adalah data yang dikumpulkan pada satu titik waktu tertentu (penjualan toko pada 1 hari). Data time series adalah data yang dikumpulkan dalam rentang waktu (penjualan toko per hari selama 30 hari)."
+            },
+            {
+                id: 12,
+                question: "Skala nominal memiliki ciri…",
+                options: [
+                    "Ada urutan & jarak antar kategori",
+                    "Hanya pengelompokan kategori tanpa urutan",
+                    "Ada urutan tetapi jarak tidak bermakna",
+                    "Titik nol mutlak",
+                    "Dapat dilakukan operasi perkalian bermakna"
+                ],
+                correct: 1,
+                explanation: "Skala nominal hanya berfungsi untuk mengelompokkan atau mengkategorikan data tanpa ada urutan atau tingkatan. Contoh: jenis kelamin, agama, warna mata."
+            },
+            {
+                id: 13,
+                question: "Skala ordinal tepat digambarkan oleh…",
+                options: [
+                    "Likert (sangat setuju–sangat tidak setuju)",
+                    "Suhu Celcius",
+                    "Pendapatan bulanan (Rp)",
+                    "Berat badan (kg) dengan nol mutlak",
+                    "Nomor telepon"
+                ],
+                correct: 0,
+                explanation: "Skala ordinal memiliki urutan atau tingkatan tetapi jarak antar kategori tidak bermakna. Skala Likert menunjukkan tingkat persetujuan yang berurutan dari sangat tidak setuju hingga sangat setuju."
+            },
+            {
+                id: 14,
+                question: "Skala interval ditandai oleh…",
+                options: [
+                    "Ada nol mutlak",
+                    "Tidak ada nol mutlak; selisih bermakna",
+                    "Tidak ada urutan",
+                    "Hanya kategori",
+                    "Hanya rasio yang bermakna"
+                ],
+                correct: 1,
+                explanation: "Skala interval memiliki urutan dan jarak yang bermakna, tetapi tidak memiliki titik nol mutlak. Contoh: suhu Celsius (0°C bukan berarti tidak ada suhu), tahun kalender."
+            },
+            {
+                id: 15,
+                question: "Skala rasio memiliki semua sifat berikut KECUALI…",
+                options: [
+                    "Dapat diurutkan",
+                    "Selisih bermakna",
+                    "Nol mutlak",
+                    "Perbandingan (dua kali lipat) bermakna",
+                    "Tidak dapat dibandingkan"
+                ],
+                correct: 4,
+                explanation: "Skala rasio memiliki semua sifat: dapat diurutkan, selisih bermakna, memiliki nol mutlak, dan perbandingan bermakna. Yang TIDAK dimiliki adalah 'tidak dapat dibandingkan' - justru skala rasio paling mudah dibandingkan."
+            },
+            {
+                id: 16,
+                question: "Statistika parametrik umumnya digunakan untuk data…",
+                options: [
+                    "Nominal/ordinal dan tidak normal",
+                    "Interval/rasio yang memenuhi asumsi uji",
+                    "Nominal dengan uji normalitas terpenuhi",
+                    "Semua jenis data tanpa syarat",
+                    "Kualitatif murni"
+                ],
+                correct: 1,
+                explanation: "Statistika parametrik memerlukan data berskala interval atau rasio dan harus memenuhi asumsi-asumsi tertentu seperti normalitas, homogenitas varians, dan independensi. Jika asumsi tidak terpenuhi, digunakan statistika non-parametrik."
+            },
+            {
+                id: 17,
+                question: "Dalam penelitian pengaruh pendapatan terhadap pengeluaran, \"pendapatan\" adalah…",
+                options: [
+                    "Variabel terikat",
+                    "Variabel bebas",
+                    "Variabel kontrol",
+                    "Variabel intervening",
+                    "Variabel residual"
+                ],
+                correct: 1,
+                explanation: "Pendapatan adalah variabel bebas (independent variable) karena merupakan variabel yang mempengaruhi atau menjadi penyebab perubahan pada variabel lain (pengeluaran). Variabel bebas adalah variabel yang nilainya tidak tergantung pada variabel lain dalam model."
+            },
+            {
+                id: 18,
+                question: "Pada contoh yang sama, \"pengeluaran\" berperan sebagai…",
+                options: [
+                    "Variabel bebas",
+                    "Variabel terikat",
+                    "Variabel moderator",
+                    "Variabel kontrol",
+                    "Variabel dummy"
+                ],
+                correct: 1,
+                explanation: "Pengeluaran adalah variabel terikat (dependent variable) karena merupakan variabel yang dipengaruhi atau menjadi akibat dari perubahan variabel bebas (pendapatan). Variabel terikat adalah variabel yang nilainya bergantung pada variabel lain."
+            },
+            {
+                id: 19,
+                question: "\"Jumlah anggota keluarga\" yang memperkuat atau memperlemah pengaruh pendapatan terhadap pengeluaran adalah…",
+                options: [
+                    "Variabel terikat",
+                    "Variabel bebas",
+                    "Variabel moderator",
+                    "Variabel intervening",
+                    "Variabel kontrol"
+                ],
+                correct: 2,
+                explanation: "Jumlah anggota keluarga adalah variabel moderator karena dapat memperkuat atau memperlemah hubungan antara pendapatan dan pengeluaran. Keluarga dengan anggota lebih banyak mungkin memiliki pola pengeluaran yang berbeda meskipun pendapatannya sama."
+            },
+            {
+                id: 20,
+                question: "\"Gaya hidup\" yang menjembatani pengaruh pendapatan ke pengeluaran dikategorikan sebagai…",
+                options: [
+                    "Variabel moderator",
+                    "Variabel intervening (mediator)",
+                    "Variabel kontrol",
+                    "Variabel bebas kedua",
+                    "Variabel pengganggu (nuisance)"
+                ],
+                correct: 1,
+                explanation: "Gaya hidup adalah variabel intervening (mediator) karena menjembatani atau memediasi hubungan antara pendapatan dan pengeluaran. Pendapatan mempengaruhi gaya hidup, dan gaya hidup kemudian mempengaruhi pola pengeluaran."
             }
         ];
 
-        let answeredQuestions = new Set();
-        let correctAnswers = 0;
+        let currentAnswers = {};
+        let score = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
 
-        function initializeQuiz() {
-            const container = document.getElementById('questionsContainer');
+        function initQuiz() {
+            const container = document.getElementById('quiz-container');
             container.innerHTML = '';
 
             questions.forEach((q, index) => {
-                const questionCard = document.createElement('div');
-                questionCard.className = 'question-card bg-white rounded-xl shadow-lg p-6 border border-gray-200';
-                
-                // Create question header
-                const questionHeader = document.createElement('div');
-                questionHeader.className = 'mb-4';
-                
-                const questionTitle = document.createElement('h3');
-                questionTitle.className = 'text-lg font-semibold text-gray-800 mb-3';
-                questionTitle.innerHTML = `<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mr-2">Soal ${q.id}</span>`;
-                
-                const questionText = document.createElement('p');
-                questionText.className = 'text-gray-700 leading-relaxed';
-                questionText.textContent = q.question;
-                
-                questionHeader.appendChild(questionTitle);
-                questionHeader.appendChild(questionText);
-                
-                // Create options container
-                const optionsContainer = document.createElement('div');
-                optionsContainer.className = 'space-y-2 mb-4';
-                
-                q.options.forEach((option, optIndex) => {
-                    const optionButton = document.createElement('button');
-                    optionButton.className = 'option-btn w-full text-left p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200';
-                    optionButton.setAttribute('data-question', index);
-                    optionButton.setAttribute('data-option', optIndex);
-                    optionButton.textContent = option;
-                    optionButton.onclick = () => selectAnswer(index, optIndex);
-                    optionsContainer.appendChild(optionButton);
-                });
-                
-                // Create answer reveal section
-                const answerReveal = document.createElement('div');
-                answerReveal.id = `answer-${index}`;
-                answerReveal.className = 'answer-reveal';
-                
-                const explanationDiv = document.createElement('div');
-                explanationDiv.className = 'bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-4 border-l-4 border-green-400';
-                
-                const proseDiv = document.createElement('div');
-                proseDiv.className = 'prose prose-sm max-w-none';
-                
-                // Process explanation text safely
-                const explanationHTML = q.explanation.split('\n').map(line => {
-                    if (line.startsWith('**') && line.endsWith('**')) {
-                        return `<h4 class="font-bold text-gray-800 mt-3 mb-2">${line.replace(/\*\*/g, '')}</h4>`;
-                    } else if (line.startsWith('• ')) {
-                        return `<li class="ml-4">${line.substring(2)}</li>`;
-                    } else if (line.trim() === '') {
-                        return '<br>';
-                    } else {
-                        return `<p class="mb-2">${line}</p>`;
-                    }
-                }).join('');
-                
-                proseDiv.innerHTML = explanationHTML;
-                explanationDiv.appendChild(proseDiv);
-                answerReveal.appendChild(explanationDiv);
-                
-                // Assemble the question card
-                questionCard.appendChild(questionHeader);
-                questionCard.appendChild(optionsContainer);
-                questionCard.appendChild(answerReveal);
-                
-                container.appendChild(questionCard);
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-card bg-white rounded-xl shadow-lg p-6 mb-6';
+                questionDiv.innerHTML = `
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">
+                            ${q.id}. ${q.question}
+                        </h3>
+                        <div class="space-y-2">
+                            ${q.options.map((option, optIndex) => `
+                                <button 
+                                    class="option-btn w-full text-left p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all"
+                                    onclick="selectAnswer(${q.id}, ${optIndex}, this)"
+                                    data-question="${q.id}"
+                                    data-option="${optIndex}"
+                                >
+                                    <span class="font-medium text-gray-700">${String.fromCharCode(65 + optIndex)}.</span>
+                                    <span class="ml-2 text-gray-800">${option}</span>
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div id="explanation-${q.id}" class="explanation-box hidden mt-4 p-4 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg">
+                            <h4 class="font-semibold text-blue-800 mb-2">Pembahasan:</h4>
+                            <p class="text-blue-700">${q.explanation}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
             });
         }
 
-        function selectAnswer(questionIndex, selectedOption) {
-            const question = questions[questionIndex];
-            const buttons = document.querySelectorAll(`[data-question="${questionIndex}"]`);
+        function selectAnswer(questionId, selectedOption, buttonElement) {
+            const question = questions.find(q => q.id === questionId);
+            const allButtons = document.querySelectorAll(`[data-question="${questionId}"]`);
             
-            // Disable all buttons for this question
-            buttons.forEach(btn => btn.disabled = true);
-            
-            // Style the selected answer
-            buttons[selectedOption].classList.remove('hover:border-blue-300', 'hover:bg-blue-50');
-            
+            // Reset all buttons for this question
+            allButtons.forEach(btn => {
+                btn.className = 'option-btn w-full text-left p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all';
+            });
+
+            // Check if this is a new answer or changing answer
+            const wasAnswered = currentAnswers.hasOwnProperty(questionId);
+            const wasCorrect = wasAnswered && currentAnswers[questionId] === question.correct;
+
+            // Update current answer
+            currentAnswers[questionId] = selectedOption;
+
+            // Style the selected button
             if (selectedOption === question.correct) {
-                buttons[selectedOption].classList.add('correct-answer', 'text-white');
-                if (!answeredQuestions.has(questionIndex)) {
-                    correctAnswers++;
+                buttonElement.className = 'option-btn w-full text-left p-3 rounded-lg border-2 border-green-500 text-white correct';
+                if (!wasAnswered) {
+                    correctCount++;
+                    score += 100;
+                } else if (!wasCorrect) {
+                    correctCount++;
+                    incorrectCount--;
+                    score += 100;
                 }
             } else {
-                buttons[selectedOption].classList.add('wrong-answer', 'text-white');
-                // Also highlight the correct answer
-                buttons[question.correct].classList.add('correct-answer', 'text-white');
+                buttonElement.className = 'option-btn w-full text-left p-3 rounded-lg border-2 border-red-500 text-white incorrect';
+                // Show correct answer
+                allButtons[question.correct].className = 'option-btn w-full text-left p-3 rounded-lg border-2 border-green-500 text-white correct';
+                
+                if (!wasAnswered) {
+                    incorrectCount++;
+                } else if (wasCorrect) {
+                    correctCount--;
+                    incorrectCount++;
+                    score -= 100;
+                }
             }
-            
+
+            // Disable all buttons for this question
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.cursor = 'default';
+            });
+
             // Show explanation
-            const answerDiv = document.getElementById(`answer-${questionIndex}`);
-            answerDiv.classList.add('show');
-            
-            // Mark as answered
-            answeredQuestions.add(questionIndex);
-            updateProgress();
-            
-            // Scroll to explanation
-            setTimeout(() => {
-                answerDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 300);
-        }
+            document.getElementById(`explanation-${questionId}`).classList.remove('hidden');
 
-        function updateProgress() {
-            const progress = document.getElementById('progress');
-            progress.textContent = `${answeredQuestions.size}/10 soal dijawab`;
-            
-            if (answeredQuestions.size === 10) {
-                setTimeout(showSummary, 1000);
+            // Update score display
+            updateScoreDisplay();
+
+            // Check if all questions answered
+            if (Object.keys(currentAnswers).length === questions.length) {
+                setTimeout(showResults, 1000);
             }
         }
 
-        function showSummary() {
-            const summary = document.getElementById('summary');
-            const scoreDisplay = document.getElementById('scoreDisplay');
-            
-            const percentage = Math.round((correctAnswers / 10) * 100);
-            let grade, color, emoji;
-            
-            if (percentage >= 90) {
-                grade = 'Excellent!';
-                color = 'text-green-600';
-                emoji = '🏆';
-            } else if (percentage >= 80) {
-                grade = 'Sangat Baik!';
-                color = 'text-blue-600';
-                emoji = '🎉';
-            } else if (percentage >= 70) {
-                grade = 'Baik!';
-                color = 'text-yellow-600';
-                emoji = '👍';
-            } else {
-                grade = 'Perlu Belajar Lagi';
-                color = 'text-red-600';
-                emoji = '📚';
-            }
-            
-            scoreDisplay.innerHTML = `
-                <div class="${color}">
-                    ${emoji} ${correctAnswers}/10 (${percentage}%)
-                </div>
-                <div class="text-lg ${color} mt-2">${grade}</div>
-            `;
-            
-            summary.classList.remove('hidden');
-            summary.scrollIntoView({ behavior: 'smooth' });
+        function updateScoreDisplay() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('correct').textContent = correctCount;
+            document.getElementById('incorrect').textContent = incorrectCount;
+        }
+
+        function showResults() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('results').classList.remove('hidden');
+            document.getElementById('final-score').textContent = `${correctCount}/20`;
         }
 
         function resetQuiz() {
-            answeredQuestions.clear();
-            correctAnswers = 0;
-            document.getElementById('summary').classList.add('hidden');
-            initializeQuiz();
-            updateProgress();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            currentAnswers = {};
+            score = 0;
+            correctCount = 0;
+            incorrectCount = 0;
+            
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('results').classList.add('hidden');
+            
+            updateScoreDisplay();
+            initQuiz();
         }
 
-        // Initialize the quiz when page loads
-        initializeQuiz();
+        // Initialize quiz on page load
+        initQuiz();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f464f7b6acfe0f',t:'MTc1NzkwMDE5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f4722cc5768956',t:'MTc1NzkwMDc0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
